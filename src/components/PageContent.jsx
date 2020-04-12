@@ -27,15 +27,15 @@ function App() {
         {apiSpec && (
           <>
             <SwaggerInfo
-              infoJson={apiSpec.data.info}
+              infoJson={apiSpec.info}
               // TODO: precalculate and use when making requests
-              baseUrl={apiSpec.data.host + apiSpec.data.basePath}
+              baseUrl={apiSpec.host + apiSpec.basePath}
             />
-            <Collapse>
-              {Object.entries(apiSpec.data.paths).map(([path, pathObj]) =>
+            <Collapse accordion>
+              {Object.entries(apiSpec.paths).map(([path, pathObj]) =>
                 Object.entries(pathObj).map(([k, v]) => (
-                  <Collapse.Panel key={k} header={k}>
-                    <Operation operationJson={v} />
+                  <Collapse.Panel key={k + path} header={k + path}>
+                    <Operation operationJson={v} path={path} method={k} />
                   </Collapse.Panel>
                 ))
               )}
