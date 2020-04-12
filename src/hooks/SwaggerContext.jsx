@@ -49,23 +49,32 @@ const useScheme = () => {
 const useBaseUrl = () => {
   const [{ basePath, host }] = useConfig();
   const [scheme] = useScheme();
-  console.log(host, basePath);
   return [`${scheme}://${host}${basePath}`];
 };
 
 const useOperation = () => {
-  const [call, { loading, data, error, responseHeaders }] = useAjax();
+  const [
+    call,
+    { loading, data, error, responseHeaders, statusCode },
+  ] = useAjax();
   const [scheme] = useScheme();
   const [baseUrl] = useBaseUrl();
-  console.log(baseUrl);
   const wrappedCall = (url, { params = {}, ...rest }) => {
     let fullUrl = baseUrl + url;
     Object.entries(params.path || {}).forEach(([k, v]) => {
       fullUrl = fullUrl.replace(`{${k}}`, v);
     });
-    call(fullUrl, { ...rest, params: params.query });
+    const { body } = params;
+    // From the spec: 'the name of the body param is for informational purposes only
+    const bodyString = Object.values(body)[0];
+    console.log(bodyString);
+    call(fullUrl, {
+      ...rest,
+      params: params.query,
+      data: JSON.parse(bodyString),
+    });
   };
-  return [wrappedCall, { loading, data, error, responseHeaders }];
+  return [wrappedCall, { loading, data, error, responseHeaders, statusCode }];
 };
 
 export { SwaggerProvider, useConfigFetcher, useConfig, useOperation };

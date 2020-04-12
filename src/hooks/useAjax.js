@@ -6,29 +6,35 @@ const useAjax = () => {
   const [data, setData] = useState();
   const [error, setError] = useState();
   const [responseHeaders, setResponseHeaders] = useState();
+  const [statusCode, setStatusCode] = useState();
 
-  const call = async (url, { method, params, headers } = {}) => {
+  const call = async (url, { method, params, headers, data } = {}) => {
     setLoading(true);
     setError(null);
     setData(null);
+    setResponseHeaders(null);
+    setStatusCode(null);
     try {
       const resp = await axios({
         url,
         method,
         headers,
         params,
+        data,
       });
       setData(resp.data);
       setResponseHeaders(resp.headers);
+      setStatusCode(resp.status);
     } catch (error) {
-      console.log(error);
-      setError(error);
+      console.log(error.response);
+      setError(error.response.data);
       setResponseHeaders(error.response.headers);
+      setStatusCode(error.response.status);
     } finally {
       setLoading(false);
     }
   };
-  return [call, { loading, data, error, responseHeaders }];
+  return [call, { loading, data, error, responseHeaders, statusCode }];
 };
 
 export default useAjax;

@@ -15,13 +15,13 @@ function App() {
   return (
     <Layout>
       <PageHeader title="OpenAPI Explorer">
-        <Input
+        <Input.Search
           value={apiUrl}
+          loading={configLoading}
           onChange={(e) => setApiUrl(e.target.value)}
-        ></Input>
-        <Button onClick={() => fetchConfig(apiUrl)} loading={configLoading}>
-          Load
-        </Button>
+          onSearch={() => fetchConfig(apiUrl)}
+          enterButton="Load"
+        ></Input.Search>
       </PageHeader>
       <Layout.Content>
         {apiSpec && (
