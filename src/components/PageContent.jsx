@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PageHeader, Input, Button, Layout, Collapse } from "antd";
+import { PageHeader, Input, Button, Layout, Collapse, Tag } from "antd";
 import axios from "axios";
 
 import SwaggerInfo from "./SwaggerInfo";
@@ -34,7 +34,15 @@ function App() {
             <Collapse accordion>
               {Object.entries(apiSpec.paths).map(([path, pathObj]) =>
                 Object.entries(pathObj).map(([k, v]) => (
-                  <Collapse.Panel key={k + path} header={k + path}>
+                  <Collapse.Panel
+                    key={k + path}
+                    header={
+                      <h4>
+                        <Tag>{k}</Tag>
+                        {path}
+                      </h4>
+                    }
+                  >
                     <Operation operationJson={v} path={path} method={k} />
                   </Collapse.Panel>
                 ))
