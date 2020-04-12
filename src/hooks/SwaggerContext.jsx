@@ -64,10 +64,12 @@ const useOperation = () => {
     Object.entries(params.path || {}).forEach(([k, v]) => {
       fullUrl = fullUrl.replace(`{${k}}`, v);
     });
+    let bodyString = null;
     const { body } = params;
-    // From the spec: 'the name of the body param is for informational purposes only
-    const bodyString = Object.values(body)[0];
-    console.log(bodyString);
+    if (body != null) {
+      // From the spec: 'the name of the body param is for informational purposes only
+      const bodyString = Object.values(body)[0];
+    }
     call(fullUrl, {
       ...rest,
       params: params.query,
