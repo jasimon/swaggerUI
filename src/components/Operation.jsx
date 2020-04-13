@@ -34,7 +34,7 @@ const Operation = ({ operationJson, path, method }) => {
         }}
         initialValues={{}}
       >
-        {(props) => (
+        {() => (
           <Form>
             {parameters.map((parameter) => (
               <>
@@ -51,7 +51,11 @@ const Operation = ({ operationJson, path, method }) => {
                       </Col>
                       <Col span={12}>
                         <pre>
-                          {JSON.stringify(bodyDef || parameter.schema, null, 2)}
+                          {JSON.stringify(
+                            (bodyDef || parameter.schema).properties,
+                            null,
+                            2
+                          )}
                         </pre>
                       </Col>
                     </>
