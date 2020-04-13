@@ -5,6 +5,7 @@ import axios from "axios";
 import SwaggerInfo from "./SwaggerInfo";
 import Operation from "./Operation";
 import SchemeSelect from "./SchemeSelect";
+import AuthModal from "./AuthModal";
 import { useConfigFetcher, useConfig } from "../hooks/SwaggerContext";
 
 const tagColors = {
@@ -45,6 +46,11 @@ function App() {
             <Row>
               <label>Schemes:</label>
               <SchemeSelect />
+              <AuthModal
+                trigger={(toggleOpen) => (
+                  <Button onClick={toggleOpen}>Authorize</Button>
+                )}
+              />
             </Row>
             <Collapse accordion>
               {Object.entries(apiSpec.paths).map(([path, pathObj]) =>

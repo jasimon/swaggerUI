@@ -9,13 +9,22 @@ const SwaggerProvider = ({ children }) => {
     { data: swaggerSchema, loading: schemaLoading },
   ] = useAjax();
   const [scheme, setScheme] = useState();
+  const [auth, setAuth] = useState();
   // TODO: cleaner way of processing post-fetching config
   useEffect(() => {
     setScheme(swaggerSchema && swaggerSchema.schemes[0]);
   }, [swaggerSchema]);
   return (
     <SwaggerContext.Provider
-      value={{ fetchSchema, swaggerSchema, schemaLoading, scheme, setScheme }}
+      value={{
+        fetchSchema,
+        swaggerSchema,
+        schemaLoading,
+        scheme,
+        setScheme,
+        auth,
+        setAuth,
+      }}
     >
       {children}
     </SwaggerContext.Provider>
@@ -52,19 +61,45 @@ const useBaseUrl = () => {
   return [`${scheme}://${host}${basePath}`];
 };
 
+const useAuth = () => {
+  const { auth, setAuth } = useSwaggerContext();
+  const [{ securityDefinitions }] = useConfig();
+
+  return [auth, securityDefinitions, setAuth];
+};
+
 const useOperation = () => {
   const [
     call,
     { loading, data, error, responseHeaders, statusCode },
   ] = useAjax();
   const [scheme] = useScheme();
+  const [auth] = useAuth();
   const [baseUrl] = useBaseUrl();
   const wrappedCall = (url, { params = {}, headers = {}, ...rest }) => {
     let fullUrl = baseUrl + url;
+    // Plug path params into URL
     Object.entries(params.path || {}).forEach(([k, v]) => {
       fullUrl = fullUrl.replace(`{${k}}`, v);
     });
-    let bodyString = null;
+
+    // Handle auth
+    let authObj;
+    if (auth) {
+      if (auth.in) {
+        // we're using api key
+        const authObj = { [auth.name]: auth.authValue };
+        if (auth.in === "header") {
+          headers = { ...headers, ...authObj };
+        } else if (auth.in === "query") {
+          params.query = { ...params.query, authObj };
+        }
+      } else if (auth.type === "basic") {
+        authObj = auth.authValue;
+      }
+    }
+
+    // handle body
     const { body = null } = params;
     const { formData } = params;
     let form;
@@ -86,6 +121,7 @@ const useOperation = () => {
       params: params.query,
       data: form || JSON.parse(body),
       headers,
+      auth: authObj,
     });
   };
   return [wrappedCall, { loading, data, error, responseHeaders, statusCode }];
@@ -106,4 +142,5 @@ export {
   useOperation,
   useDefinition,
   useScheme,
+  useAuth,
 };
