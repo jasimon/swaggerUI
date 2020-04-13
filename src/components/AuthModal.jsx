@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Input } from "antd";
+import { Modal } from "antd";
 
 import { useAuth } from "../hooks/SwaggerContext";
 import ApiKeyAuth from "./ApiKeyAuth";

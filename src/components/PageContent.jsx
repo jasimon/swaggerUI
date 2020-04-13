@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { PageHeader, Input, Button, Layout, Collapse, Tag, Row } from "antd";
-import axios from "axios";
 
 import SwaggerInfo from "./SwaggerInfo";
 import Operation from "./Operation";

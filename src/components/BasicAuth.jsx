@@ -7,7 +7,7 @@ const BasicAuth = ({ authJson, authName }) => {
   const [auth, _, setAuth] = useAuth();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const isCurrent = auth && auth.authName == authName;
+  const isCurrent = auth && auth.authName === authName;
   return (
     <div>
       <h3>Api Key Auth</h3>

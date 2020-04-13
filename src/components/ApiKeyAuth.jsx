@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/SwaggerContext";
 const ApiKeyAuth = ({ authJson, authName }) => {
   const [auth, _, setAuth] = useAuth();
   const [authValue, setAuthValue] = useState();
-  const isCurrent = auth && auth.authName == authName;
+  const isCurrent = auth && auth.authName === authName;
   return (
     <div>
       <h3>Api Key Auth</h3>

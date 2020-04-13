@@ -73,7 +73,6 @@ const useOperation = () => {
     call,
     { loading, data, error, responseHeaders, statusCode },
   ] = useAjax();
-  const [scheme] = useScheme();
   const [auth] = useAuth();
   const [baseUrl] = useBaseUrl();
   const wrappedCall = (url, { params = {}, headers = {}, ...rest }) => {
