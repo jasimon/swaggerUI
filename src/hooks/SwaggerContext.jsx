@@ -131,7 +131,7 @@ const useDefinition = (path = "") => {
   const defnKey = path.replace("#/definitions/", "");
   // intentionally returning undefined when no path is passed in so we don't need to check the path
   // exists at the call site
-  return definitions[defnKey];
+  return [definitions[defnKey], definitions];
 };
 
 export {
