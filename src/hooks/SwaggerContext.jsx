@@ -65,7 +65,7 @@ const useOperation = () => {
       fullUrl = fullUrl.replace(`{${k}}`, v);
     });
     let bodyString = null;
-    const { body } = params;
+    const { body = null } = params;
     const { formData } = params;
     let form;
     if (formData) {
@@ -105,4 +105,5 @@ export {
   useConfig,
   useOperation,
   useDefinition,
+  useScheme,
 };

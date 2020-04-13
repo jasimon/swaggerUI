@@ -14,10 +14,16 @@ const SwaggerInfo = ({ infoJson, baseUrl }) => (
         __html: md.renderInline(infoJson.description),
       }}
     />
-    <a href={infoJson.termsOfService}>Terms of service</a>
+    <p>
+      <a href={infoJson.termsOfService}>Terms of service</a>
+    </p>
     {/* TODO: support both email and URL here */}
-    <a href={infoJson.contact.url}>Contact the developer</a>
-    <a href={infoJson.license.url}>{infoJson.license.name}</a>
+    <p>
+      <a href={infoJson.contact.url}>Contact the developer</a>
+    </p>
+    <p>
+      <a href={infoJson.license.url}>{infoJson.license.name}</a>
+    </p>
   </div>
 );
 

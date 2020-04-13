@@ -4,6 +4,7 @@ import axios from "axios";
 
 import SwaggerInfo from "./SwaggerInfo";
 import Operation from "./Operation";
+import SchemeSelect from "./SchemeSelect";
 import { useConfigFetcher, useConfig } from "../hooks/SwaggerContext";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
               // TODO: precalculate and use when making requests
               baseUrl={apiSpec.host + apiSpec.basePath}
             />
+            <SchemeSelect />
             <Collapse accordion>
               {Object.entries(apiSpec.paths).map(([path, pathObj]) =>
                 Object.entries(pathObj).map(([k, v]) => (

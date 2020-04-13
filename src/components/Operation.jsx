@@ -4,16 +4,20 @@ import { Input, Button, Spin, Row, Col } from "antd";
 
 import { useOperation, useDefinition } from "../hooks/SwaggerContext";
 
+import "./Operation.scss";
+
 const Operation = ({ operationJson, path, method }) => {
   const parameters = operationJson.parameters || [];
+  const headers = {};
   const contentTypeOptions = operationJson.consumes;
-  const contentType = (contentTypeOptions || [])[0];
+  if (contentTypeOptions) {
+    headers["content-type"] = contentTypeOptions[0];
+  }
   const acceptOptions = operationJson.produces;
-  const accept = (acceptOptions || [])[0];
-  const [
-    call,
-    { loading, data, error, responseHeaders, statusCode },
-  ] = useOperation();
+  if (acceptOptions) {
+    headers["accept"] = acceptOptions[0];
+  }
+  const [call, { loading, data, error, statusCode }] = useOperation();
   const bodyParam = parameters.find((p) => p.in === "body");
   const bodyDef = useDefinition(bodyParam && bodyParam.schema["$ref"]);
   return (
@@ -25,7 +29,7 @@ const Operation = ({ operationJson, path, method }) => {
           call(path, {
             params: values,
             method,
-            headers: { "content-type": contentType, accept },
+            headers,
           });
         }}
         initialValues={{}}
@@ -72,7 +76,7 @@ const Operation = ({ operationJson, path, method }) => {
           <h2>Response</h2>
           <label>Status code:</label>
           <span>{statusCode}</span>
-          <pre>
+          <pre className="api-response">
             <code>{JSON.stringify(data || error, null, 2)}</code>
           </pre>
         </>
