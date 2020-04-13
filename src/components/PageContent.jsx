@@ -19,19 +19,15 @@ const tagColors = {
 };
 
 function App() {
-  const [apiUrl, setApiUrl] = useState(
-    "https://petstore.swagger.io/v2/swagger.json"
-  );
   const [fetchConfig, configLoading] = useConfigFetcher();
   const [apiSpec] = useConfig();
   return (
     <Layout>
       <PageHeader title="OpenAPI Explorer">
         <Input.Search
-          value={apiUrl}
+          defaultValue="https://petstore.swagger.io/v2/swagger.json"
           loading={configLoading}
-          onChange={(e) => setApiUrl(e.target.value)}
-          onSearch={() => fetchConfig(apiUrl)}
+          onSearch={(value) => fetchConfig(value)}
           enterButton="Load"
         ></Input.Search>
       </PageHeader>

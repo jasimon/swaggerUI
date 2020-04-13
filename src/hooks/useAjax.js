@@ -26,7 +26,6 @@ const useAjax = () => {
       setResponseHeaders(resp.headers);
       setStatusCode(resp.status);
     } catch (error) {
-      console.log(error.response);
       setError(error.response.data || error.response.statusText);
       setResponseHeaders(error.response.headers);
       setStatusCode(error.response.status);
