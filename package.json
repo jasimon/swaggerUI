@@ -11,7 +11,7 @@
     "formik": "^2.1.4",
     "json-schema-faker": "^0.5.0-rcv.24",
     "markdown-it": "^10.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
